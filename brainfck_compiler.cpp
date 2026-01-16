@@ -24,19 +24,25 @@ std::vector<char> run_brainfck(std::string in, std::vector<uint8_t> mem, uint16_
             // input ',' no implementado por los fines de uso del programa.
             case '[': {
                 jmpIndex = i;
+                if (mem[index] == 0){
+                    for (int j = i; j < in.length(); j++){
+                        if (in[j] == ']'){
+                            i = j;
+                            break;
+                        }
+                    }
+                }
                 break;
             }
             case ']': {
                 if (mem[index] != 0){
                     i = jmpIndex;
-                    jmpIndex = 0;
                 }
+                break;
             }
         }
     }
-    for (uint8_t num : out){
-        out.push_back((char) num);
-    }
+
     return out;
 }
 
@@ -47,7 +53,7 @@ int main() {
     std::string input = "";
 
     std::cout<<"Ingrese el código de Brainf*ck a compilar: \nR/ ";
-    std::cin>>input;
+    std::getline(std::cin, input);
 
     std::vector<char> out;
 
@@ -60,6 +66,7 @@ int main() {
     for (char c : out){
         std::cout<<c;
     }
+
 
     return 0;
 }
